@@ -4,7 +4,6 @@ import { inject, injectable } from 'inversify';
 import { TYPES } from '../../types';
 import { ILogger } from '../../logger/logger.interface';
 import { BaseRepository } from '../../common/base.repository';
-import { OutgoingQueriesLog } from '@prisma/client';
 import 'reflect-metadata';
 
 @injectable()

@@ -25,9 +25,9 @@ import { AdminController } from "./admin/admin.controller";
 import { UserController } from "./user/user.controller";
 import { UserService } from "./user/user.service";
 import { UserRepository } from "./user/user.repository";
-import "reflect-metadata";
 import { MenuRepository } from "./menu/menu.repository";
 import { DishToMenuRepository } from "./menu/dishToMenu.repository";
+import "reflect-metadata";
 
 const appContainer: Container = new Container();
 
