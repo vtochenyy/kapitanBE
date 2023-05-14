@@ -18,8 +18,33 @@ export class UserService {
     public async registerUser(params: RegisterUserDtoIn, next: NextFunction) {
         try {
             let result = {};
-            await this.databaseService.client.$transaction(async () => {});
-            return baseAnswer(201, result, []);
+            await this.databaseService.client.$transaction(async () => {
+                try {
+                    result = await this.userRepository.create(params);
+                } catch (e) {
+                    throw new Error(String(e));
+                }
+            });
+            return baseAnswer(201, result, {});
+        } catch (e) {
+            next(new HttpError(500, String(e), 'UserService'));
+        }
+    }
+
+    public async login(params: { login: string; password: string }, next: NextFunction) {
+        try {
+            const targetUser = await this.userRepository.findByCriteria({ login: params.login });
+            if (!!targetUser.length) {
+                if (params.password === targetUser[0].password) {
+                    return baseAnswer(200, { isAuth: true }, {});
+                } else {
+                    throw new Error(
+                        'User with this login found, but provided passwod is incorrect'
+                    );
+                }
+            } else {
+                throw new Error('User with this login was not found');
+            }
         } catch (e) {
             next(new HttpError(500, String(e), 'UserService'));
         }

@@ -11,6 +11,8 @@ import { UserService } from './user/user.service';
 import { UserRepository } from './user/user.repository';
 import { MenuRepository } from './menu/menu.repository';
 import { DishToMenuRepository } from './menu/dishToMenu.repository';
+import { BuisnessLunchRepository } from './menu/buisnessLunch.repository';
+import { DishToBuisnessLunchRepository } from './menu/dishToBuisnessLunch.repository';
 
 export const TYPES = {
     Application: Symbol.for('Application'),
@@ -33,4 +35,6 @@ export const TYPES = {
     UserRepository: Symbol.for('UserRepository'),
     MenuRepository: Symbol.for('MenuRepository'),
     DishToMenuRepository: Symbol.for('DishToMenuRepository'),
+    BuisnessLunchRepository: Symbol.for('BuisnessLunchRepository'),
+    DishToBuisnessLunchRepository: Symbol.for('DishToBuisnessLunchRepository'),
 };

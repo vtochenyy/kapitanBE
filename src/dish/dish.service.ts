@@ -23,7 +23,7 @@ export class DishService {
         try {
             params.createdBy = adminId;
             const data = await this.dishRepository.create(params);
-            return baseAnswer(201, data, []);
+            return baseAnswer(201, data, {});
         } catch (e) {
             next(new HttpError(500, String(e), 'DishService'));
         }
@@ -32,7 +32,7 @@ export class DishService {
     public async getDishById(id: string, next: NextFunction) {
         try {
             const data = await this.dishRepository.findRecordById(id);
-            return baseAnswer(200, data, []);
+            return baseAnswer(200, data, {});
         } catch (e) {
             next(new HttpError(500, String(e), 'DishService'));
         }
@@ -41,7 +41,7 @@ export class DishService {
     public async getAllDishes(next: NextFunction) {
         try {
             let data = await this.dishRepository.findAll();
-            return baseAnswer(200, data, []);
+            return baseAnswer(200, data, {});
         } catch (e) {
             next(new HttpError(500, String(e), 'DishService'));
         }
@@ -53,7 +53,7 @@ export class DishService {
             if (!!data.error) {
                 throw new Error(data.error);
             }
-            return baseAnswer(200, data, []);
+            return baseAnswer(200, data, {});
         } catch (e) {
             next(new HttpError(500, String(e), 'DishService'));
         }
@@ -63,7 +63,7 @@ export class DishService {
         try {
             console.log(id);
             const data = await this.dishRepository.update(id, params);
-            return baseAnswer(200, data, []);
+            return baseAnswer(200, data, {});
         } catch (e) {
             next(new HttpError(500, String(e), 'DishService'));
         }

@@ -27,6 +27,8 @@ import { UserService } from "./user/user.service";
 import { UserRepository } from "./user/user.repository";
 import { MenuRepository } from "./menu/menu.repository";
 import { DishToMenuRepository } from "./menu/dishToMenu.repository";
+import { BuisnessLunchRepository } from './menu/buisnessLunch.repository';
+import { DishToBuisnessLunchRepository } from './menu/dishToBuisnessLunch.repository';
 import "reflect-metadata";
 
 const appContainer: Container = new Container();
@@ -52,6 +54,8 @@ function bindDeps(): void {
   appContainer.bind<BaseRepository>(TYPES.UserRepository).to(UserRepository).inSingletonScope();
   appContainer.bind<BaseRepository>(TYPES.MenuRepository).to(MenuRepository).inSingletonScope();
   appContainer.bind<BaseRepository>(TYPES.DishToMenuRepository).to(DishToMenuRepository).inSingletonScope();
+  appContainer.bind<BaseRepository>(TYPES.BuisnessLunchRepository).to(BuisnessLunchRepository).inSingletonScope();
+  appContainer.bind<BaseRepository>(TYPES.DishToBuisnessLunchRepository).to(DishToBuisnessLunchRepository).inSingletonScope();
 }
 
 bindDeps();

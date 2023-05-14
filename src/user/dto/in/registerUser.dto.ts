@@ -1,13 +1,28 @@
-import {IsNotEmpty, IsNumber, IsOptional, IsString, Length, Max, Min} from "class-validator";
+import { IsNotEmpty, IsString, Length } from 'class-validator';
 
 export class RegisterUserDtoIn {
-    @IsNumber()
+    @IsString()
     @IsNotEmpty()
-    @Min(1)
-    @Max(100)
-    tableNumber: number;
+    @Length(4, 50)
+    private login: string;
 
-    @IsOptional()
-    @Length(1, 10)
-    itemNumber?: number;
+    @IsString()
+    @IsNotEmpty()
+    @Length(4, 50)
+    private password: string;
+
+    @IsString()
+    @IsNotEmpty()
+    @Length(4, 50)
+    private name: string;
+
+    @IsString()
+    @IsNotEmpty()
+    @Length(4, 50)
+    private lastname: string;
+
+    @IsString()
+    @IsNotEmpty()
+    @Length(4, 50)
+    private middlename: string;
 }
