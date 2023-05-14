@@ -19,8 +19,9 @@ export class DishService {
         private incomingQueryLogsMeddlewareService: IIncomingQueryLogsMiddlewareInterface
     ) {}
 
-    public async createDish(params: Dish, next: NextFunction) {
+    public async createDish(adminId: string, params: Dish, next: NextFunction) {
         try {
+            params.createdBy = adminId;
             const data = await this.dishRepository.create(params);
             return baseAnswer(201, data, []);
         } catch (e) {
@@ -37,7 +38,7 @@ export class DishService {
         }
     }
 
-    public async deleteDish(id: string, next: NextFunction) {
+    public async deleteDish(adminId: string, id: string, next: NextFunction) {
         try {
             const data = await this.dishRepository.deleteById(id);
             if (!!data.error) {
@@ -49,9 +50,10 @@ export class DishService {
         }
     }
 
-    public async updateDishById(id: string, params: any, next: NextFunction) {
+    public async updateDishById(adminId: string, id: string, params: any, next: NextFunction) {
         try {
-            const data = await this.dishRepository.update(params.id, params);
+            console.log(id);
+            const data = await this.dishRepository.update(id, params);
             return baseAnswer(200, data, []);
         } catch (e) {
             next(new HttpError(500, String(e), 'DishService'));

@@ -55,7 +55,11 @@ export class DishController extends BaseController implements IControllerIntefac
 
     public async createDish(req: Request, res: Response, next: NextFunction) {
         try {
-            const data = await this.dishService.createDish(req.body, next);
+            const data = await this.dishService.createDish(
+                String(req.headers.userid),
+                req.body,
+                next
+            );
             data && res.status(data.status).send(data);
         } catch (err) {
             next(new HttpError(400, 'Bad Request', 'DishController'));
@@ -73,7 +77,11 @@ export class DishController extends BaseController implements IControllerIntefac
 
     public async deleteDish(req: Request, res: Response, next: NextFunction) {
         try {
-            const data = await this.dishService.deleteDish(String(req.query.id), next);
+            const data = await this.dishService.deleteDish(
+                String(req.headers.userid),
+                String(req.query.id),
+                next
+            );
             data && res.status(data.status).send(data);
         } catch (e) {
             next(new HttpError(400, 'Bad Request', 'DishController'));
@@ -83,6 +91,7 @@ export class DishController extends BaseController implements IControllerIntefac
     public async updateDishById(req: Request, res: Response, next: NextFunction) {
         try {
             const data = await this.dishService.updateDishById(
+                String(req.headers.userid),
                 String(req.query.id),
                 req.body,
                 next

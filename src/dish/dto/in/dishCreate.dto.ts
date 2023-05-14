@@ -1,12 +1,8 @@
 import {
-    IsArray,
-    IsBoolean,
-    IsDecimal,
     IsEmpty,
     IsInt,
     IsNotEmpty,
     IsNumber,
-    IsOptional,
     IsPositive,
     IsString,
     Max,
@@ -21,10 +17,6 @@ export class DishCreateDtoIn {
     @IsString()
     @IsNotEmpty()
     private weight: string;
-
-    @IsArray()
-    @IsOptional()
-    private dieta?: string;
 
     @IsPositive()
     @IsInt()
@@ -50,16 +42,12 @@ export class DishCreateDtoIn {
     @Max(10000)
     private calories: number;
 
-    @IsBoolean()
-    private isForKids: boolean;
-
-    @IsBoolean()
-    @IsOptional()
-    private isDefaultDish?: boolean;
-
     @IsEmpty()
     private createdAt: string;
 
-    @IsString()
-    private typeOfDishId: string;
+    @IsNumber()
+    @IsPositive()
+    @Min(0)
+    @Max(1000)
+    private price: number;
 }

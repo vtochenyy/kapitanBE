@@ -18,14 +18,17 @@ model News {
 }
 
 model Administrator {
-  id         String   @unique @db.Uuid
-  name       String
-  login      String   @unique
-  password   String
-  surname    String
-  middlename String
-  createdAt  DateTime @default(now())
-  News       News[]
+  id                  String                @unique @db.Uuid
+  name                String
+  login               String                @unique
+  password            String
+  surname             String
+  middlename          String
+  createdAt           DateTime              @default(now())
+  News                News[]
+  Dish                Dish[]
+  BuisnessLunch       BuisnessLunch[]
+  DishToBuisnessLunch DishToBuisnessLunch[]
 }
 
 model DishToMenu {
@@ -33,42 +36,69 @@ model DishToMenu {
   Menu               Menu     @relation(fields: [menuId], references: [id])
   menuId             String   @db.Uuid
   dishId             String   @db.Uuid
-  placeNumber        Int      @db.SmallInt
   typeOfFoodIntakeId String   @db.Uuid
   Dish               Dish     @relation(fields: [dishId], references: [id])
   createdAt          DateTime @default(now())
+  createdBy          String   @db.Uuid
+  Admin              User     @relation(fields: [createdBy], references: [id])
 }
 
 model Menu {
-  id           String       @unique @db.Uuid
-  user         User         @relation(fields: [userId], references: [id])
-  userId       String       @db.Uuid
-  globalMenuId String       @db.Uuid
-  DishToMenu   DishToMenu[]
-  createdAt    DateTime     @default(now())
+  id              String         @unique @db.Uuid
+  user            User           @relation(fields: [userId], references: [id])
+  userId          String         @db.Uuid
+  buisnessLunchId String?        @db.Uuid
+  BuisnessLunch   BuisnessLunch? @relation(fields: [buisnessLunchId], references: [id])
+  DishToMenu      DishToMenu[]
+  createdAt       DateTime       @default(now())
 }
 
 model User {
-  id         String   @unique @db.Uuid
+  id         String       @unique @db.Uuid
   login      String
   password   String
   name       String
   lastname   String
   middlename String
   menu       Menu[]
-  createdAt  DateTime @default(now())
+  createdAt  DateTime     @default(now())
+  DishToMenu DishToMenu[]
 }
 
 model Dish {
-  id            String       @unique @db.Uuid
-  name          String
-  weight        String
-  protein       Int
-  fats          Int
-  carbohydrates Int
-  calories      Float
-  DishToMenu    DishToMenu[]
-  createdAt     DateTime     @default(now())
+  id                  String                @unique @db.Uuid
+  name                String
+  weight              String
+  protein             Int
+  fats                Int
+  carbohydrates       Int
+  calories            Float
+  price               Float
+  DishToMenu          DishToMenu[]
+  createdAt           DateTime              @default(now())
+  createdBy           String                @db.Uuid
+  Admin               Administrator         @relation(fields: [createdBy], references: [id])
+  DishToBuisnessLunch DishToBuisnessLunch[]
+}
+
+model DishToBuisnessLunch {
+  id              String        @unique @db.Uuid
+  buisnessLunchId String        @db.Uuid
+  dishId          String        @db.Uuid
+  createdAt       DateTime      @default(now())
+  createdBy       String        @db.Uuid
+  Admin           Administrator @relation(fields: [createdBy], references: [id])
+  BuisnessLunch   BuisnessLunch @relation(fields: [buisnessLunchId], references: [id])
+  Dish            Dish          @relation(fields: [dishId], references: [id])
+}
+
+model BuisnessLunch {
+  id                  String                @unique @db.Uuid
+  targetDate          DateTime              @db.Date
+  createdBy           String                @db.Uuid
+  Admin               Administrator         @relation(fields: [createdBy], references: [id])
+  Menu                Menu[]
+  DishToBuisnessLunch DishToBuisnessLunch[]
 }
 
 model IncomingQueriesLog {
@@ -76,6 +106,6 @@ model IncomingQueriesLog {
   url         String
   method      String
   headers     String
-  requestBody Json?
+  requestBody String?
   createdAt   DateTime @default(now())
 }
