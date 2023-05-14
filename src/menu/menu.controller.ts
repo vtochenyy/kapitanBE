@@ -36,6 +36,12 @@ export class MenuController extends BaseController implements IControllerIntefac
             },
             {
                 root: '/menu',
+                path: '/getUserOrderByDate',
+                method: 'get',
+                func: this.getUserOrderByDate,
+            },
+            {
+                root: '/menu',
                 path: '/getBuisnessLunchByDate',
                 method: 'get',
                 func: this.getBuisnessLunchByDate,
@@ -63,6 +69,19 @@ export class MenuController extends BaseController implements IControllerIntefac
         }
     }
 
+    public async getUserOrderByDate(req: Request, res: Response, next: NextFunction) {
+        try {
+            const data = await this.menuService.getUserOrderByDate(
+                String(req.headers.userid),
+                String(req.query.targetDate),
+                next
+            );
+            data && res.status(data.status).send(data);
+        } catch (e) {
+            next(new HttpError(400, 'Bad Request', 'MenuController'));
+        }
+    }
+
     public async getBuisnessLunchByDate(req: Request, res: Response, next: NextFunction) {
         try {
             const data = await this.menuService.getBuisnessLunchByDate(
@@ -74,6 +93,7 @@ export class MenuController extends BaseController implements IControllerIntefac
             next(new HttpError(400, 'Bad Request', 'MenuController'));
         }
     }
+
     public async createOrder(req: Request, res: Response, next: NextFunction) {
         try {
             const data = await this.menuService.createOrder(

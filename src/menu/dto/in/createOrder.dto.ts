@@ -19,6 +19,7 @@ export class CreateOrderDtoIn {
     @IsUUID()
     buisnessLunchId?: string;
 
+    @IsOptional()
     @IsArray()
     @ArrayMinSize(1)
     @IsNotEmpty()

@@ -61,7 +61,6 @@ export class DishService {
 
     public async updateDishById(adminId: string, id: string, params: any, next: NextFunction) {
         try {
-            console.log(id);
             const data = await this.dishRepository.update(id, params);
             return baseAnswer(200, data, {});
         } catch (e) {

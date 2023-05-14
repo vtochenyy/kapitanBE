@@ -3,20 +3,20 @@ import { TYPES } from '../types';
 import { ILogger } from '../logger/logger.interface';
 import { BaseRepository } from '../common/base.repository';
 import { IDatabaseService } from '../db/databaseService.interface';
-import 'reflect-metadata';
-import { NextFunction, Request, Response } from 'express';
+import { NextFunction } from 'express';
 import { HttpError } from '../errors/http-error.class';
 import { baseAnswer } from '../common/baseAnswer';
 import { BuisnessLunch } from '@prisma/client';
+import 'reflect-metadata';
 
 type CreateOrderParams = {
     targetDate: string;
     buisnessLunchId?: string;
-    dishes: string[];
+    dishes?: string[];
 };
 
 type CreateMenuParams = {
-    targetDate: string;
+    targetDate: Date;
     buisnessLunchId?: string;
     createdBy: string;
 };
@@ -96,20 +96,94 @@ export class MenuService {
             let data = {};
             await this.databaseService.client.$transaction(async () => {
                 const menuParams: CreateMenuParams = {
-                    targetDate: params.targetDate,
+                    targetDate: new Date(params.targetDate),
                     createdBy: userId,
                 };
-                !!params.buisnessLunchId && (menuParams.buisnessLunchId = params.buisnessLunchId);
-                const menu = await this.menuRepository.create(menuParams);
-                const dishToMenuParams = params.dishes.map((x) => ({
-                    dishId: x,
-                    menuId: menu.id,
-                    createdBy: userId,
-                }));
-                const menuItems = await this.dishToMenuRepository.createMany(dishToMenuParams);
-                data = { menu: { ...menu, menuItems: menuItems } };
+                if (!!params.buisnessLunchId) {
+                    const isProvidedBuisnessLunchDateEqualsToOriginal =
+                        await this.buisnessLunchRepository
+                            .findByCriteria({
+                                targetDate: menuParams.targetDate,
+                            })
+                            .then((x) => x[0])
+                            .then((x) => {
+                                return x.id === params.buisnessLunchId;
+                            });
+                    if (isProvidedBuisnessLunchDateEqualsToOriginal) {
+                        !!params.buisnessLunchId &&
+                            (menuParams.buisnessLunchId = params.buisnessLunchId);
+                        const menu = await this.menuRepository.create(menuParams);
+                        if (!!params.dishes) {
+                            const dishToMenuParams = params.dishes.map((x) => ({
+                                dishId: x,
+                                menuId: menu.id,
+                                createdBy: userId,
+                            }));
+                            const menuItems = await this.dishToMenuRepository.createMany(
+                                dishToMenuParams
+                            );
+                            data = { order: { ...menu, menuItems: menuItems } };
+                        } else {
+                            data = { order: { ...menu } };
+                        }
+                    } else {
+                        throw new Error('Date of provided buisness lunch is incorrect');
+                    }
+                } else if (!params.buisnessLunchId) {
+                    const menu = await this.menuRepository.create(menuParams);
+                    if (!!params.dishes) {
+                        const dishToMenuParams = params.dishes.map((x) => ({
+                            dishId: x,
+                            menuId: menu.id,
+                            createdBy: userId,
+                        }));
+                        const menuItems = await this.dishToMenuRepository.createMany(
+                            dishToMenuParams
+                        );
+                        data = { order: { ...menu, menuItems: menuItems } };
+                    } else {
+                        data = { order: { ...menu } };
+                    }
+                } else {
+                    throw new Error('Interlan server error');
+                }
             });
             return baseAnswer(201, data, {});
+        } catch (e) {
+            next(new HttpError(500, String(e), 'MenuService'));
+        }
+    }
+
+    public async getUserOrderByDate(userId: string, targetDate: string, next: NextFunction) {
+        try {
+            const targetMenu = await this.menuRepository
+                .findByCriteria({ createdBy: userId, targetDate: new Date(targetDate) })
+                .then((x) => x[0]);
+            if (!!targetMenu) {
+                const dishesToMenuDishesIds = await this.dishToMenuRepository
+                    .findByCriteria({
+                        menuId: targetMenu.id,
+                    })
+                    .then((x) => x.map((y) => y.dishId));
+                const dishes = await this.dishRepository.findByCriteria({
+                    id: { in: dishesToMenuDishesIds },
+                });
+                return baseAnswer(
+                    200,
+                    {
+                        order: {
+                            ...targetMenu,
+                            targetDate: new Date(targetMenu.targetDate)
+                                .toISOString()
+                                .substring(0, 10),
+                            orderItems: dishes,
+                        },
+                    },
+                    {}
+                );
+            } else {
+                throw new Error('Order for this user by this date was not found');
+            }
         } catch (e) {
             next(new HttpError(500, String(e), 'MenuService'));
         }
