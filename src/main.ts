@@ -30,6 +30,10 @@ import { DishToMenuRepository } from "./menu/dishToMenu.repository";
 import { BuisnessLunchRepository } from './menu/buisnessLunch.repository';
 import { DishToBuisnessLunchRepository } from './menu/dishToBuisnessLunch.repository';
 import "reflect-metadata";
+import { NewsRepository } from './news/news.repository';
+import { INewsService } from './news/news.service.interface';
+import { NewsService } from './news/news.service';
+import { NewsController } from './news/news.controller';
 
 const appContainer: Container = new Container();
 
@@ -56,6 +60,9 @@ function bindDeps(): void {
   appContainer.bind<BaseRepository>(TYPES.DishToMenuRepository).to(DishToMenuRepository).inSingletonScope();
   appContainer.bind<BaseRepository>(TYPES.BuisnessLunchRepository).to(BuisnessLunchRepository).inSingletonScope();
   appContainer.bind<BaseRepository>(TYPES.DishToBuisnessLunchRepository).to(DishToBuisnessLunchRepository).inSingletonScope();
+  appContainer.bind<BaseRepository>(TYPES.NewsRepository).to(NewsRepository).inRequestScope();
+  appContainer.bind<INewsService>(TYPES.NewsService).to(NewsService).inRequestScope();
+  appContainer.bind<NewsController>(TYPES.NewsController).to(NewsController).inRequestScope();
 }
 
 bindDeps();

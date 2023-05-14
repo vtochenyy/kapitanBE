@@ -15,6 +15,7 @@ import { responseHeaderSetterMiddleware } from './middlewares/responseHeaderSett
 import { UserController } from './user/user.controller';
 import { IDatabaseService } from './db/databaseService.interface';
 import 'reflect-metadata';
+import { NewsController } from './news/news.controller';
 
 @injectable()
 export class App {
@@ -32,7 +33,8 @@ export class App {
         @inject(TYPES.MenuController) private menuController: MenuController,
         @inject(TYPES.UserController) private userController: UserController,
         @inject(TYPES.AdminController) private adminController: AdminController,
-        @inject(TYPES.DatabaseService) private databaseService: IDatabaseService
+        @inject(TYPES.DatabaseService) private databaseService: IDatabaseService,
+        @inject(TYPES.NewsController) private newsController: NewsController
     ) {
         this.app = express();
         this.port = +this.configService.get('SERVER_PORT');
@@ -57,6 +59,7 @@ export class App {
         this.app.use('/menu', this.menuController.router);
         this.app.use('/admin', this.adminController.router);
         this.app.use('/user', this.userController.router);
+        this.app.use('/news', this.newsController.router);
     }
 
     public useErrorValidation() {

@@ -13,6 +13,9 @@ import { MenuRepository } from './menu/menu.repository';
 import { DishToMenuRepository } from './menu/dishToMenu.repository';
 import { BuisnessLunchRepository } from './menu/buisnessLunch.repository';
 import { DishToBuisnessLunchRepository } from './menu/dishToBuisnessLunch.repository';
+import { NewsRepository } from './news/news.repository';
+import { NewsService } from './news/news.service';
+import { NewsController } from './news/news.controller';
 
 export const TYPES = {
     Application: Symbol.for('Application'),
@@ -37,4 +40,7 @@ export const TYPES = {
     DishToMenuRepository: Symbol.for('DishToMenuRepository'),
     BuisnessLunchRepository: Symbol.for('BuisnessLunchRepository'),
     DishToBuisnessLunchRepository: Symbol.for('DishToBuisnessLunchRepository'),
+    NewsRepository: Symbol.for('NewsRepository'),
+    NewsService: Symbol.for('NewsService'),
+    NewsController: Symbol.for('NewsController'),
 };
