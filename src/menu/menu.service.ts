@@ -224,9 +224,21 @@ export class MenuService {
     public async getOrderById(orderId: string, next: NextFunction) {
         try {
             const order = await this.menuRepository.findRecordById(orderId);
+            const dishToMenuItems = await this.dishToMenuRepository
+                .findByCriteria({
+                    menuId: orderId,
+                })
+                .then((x) => x.map((y) => y.dishId));
+            const dishes = await this.dishRepository.findByCriteria({
+                id: { in: dishToMenuItems },
+            });
             return baseAnswer(
                 200,
-                { ...order, targetDate: new Date(order.targetDate).toISOString().substring(0, 10) },
+                {
+                    ...order,
+                    targetDate: new Date(order.targetDate).toISOString().substring(0, 10),
+                    items: dishes,
+                },
                 {}
             );
         } catch (e) {

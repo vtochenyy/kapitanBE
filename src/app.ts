@@ -51,10 +51,6 @@ export class App {
                 this.incomingQueryLogsMeddlewareService
             )
         );
-        this.app.use(
-            '/static',
-            express.static(__dirname.split('\\').slice(0, -1).join('\\') + '\\UI\\build')
-        );
         this.app.use('/dish', this.dishController.router);
         this.app.use('/menu', this.menuController.router);
         this.app.use('/admin', this.adminController.router);
