@@ -48,6 +48,24 @@ export class MenuController extends BaseController implements IControllerIntefac
             },
             {
                 root: '/menu',
+                path: '/getAllUserOrders',
+                method: 'get',
+                func: this.getAllUserOrders,
+            },
+            {
+                root: '/menu',
+                path: '/getAllOrders',
+                method: 'get',
+                func: this.getAllOrders,
+            },
+            {
+                root: '/menu',
+                path: '/getOrderById',
+                method: 'get',
+                func: this.getOrderById,
+            },
+            {
+                root: '/menu',
                 path: '/createOrder',
                 method: 'post',
                 func: this.createOrder,
@@ -88,6 +106,33 @@ export class MenuController extends BaseController implements IControllerIntefac
                 String(req.query.targetDate),
                 next
             );
+            data && res.status(data.status).send(data);
+        } catch (e) {
+            next(new HttpError(400, 'Bad Request', 'MenuController'));
+        }
+    }
+
+    public async getAllUserOrders(req: Request, res: Response, next: NextFunction) {
+        try {
+            const data = await this.menuService.getAllUserOrders(String(req.headers.userid), next);
+            data && res.status(data.status).send(data);
+        } catch (e) {
+            next(new HttpError(400, 'Bad Request', 'MenuController'));
+        }
+    }
+
+    public async getAllOrders(req: Request, res: Response, next: NextFunction) {
+        try {
+            const data = await this.menuService.getAllOrders(next);
+            data && res.status(data.status).send(data);
+        } catch (e) {
+            next(new HttpError(400, 'Bad Request', 'MenuController'));
+        }
+    }
+
+    public async getOrderById(req: Request, res: Response, next: NextFunction) {
+        try {
+            const data = await this.menuService.getOrderById(String(req.query.orderId), next);
             data && res.status(data.status).send(data);
         } catch (e) {
             next(new HttpError(400, 'Bad Request', 'MenuController'));

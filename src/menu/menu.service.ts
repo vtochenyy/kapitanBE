@@ -188,4 +188,49 @@ export class MenuService {
             next(new HttpError(500, String(e), 'MenuService'));
         }
     }
+
+    public async getAllUserOrders(userId: string, next: NextFunction) {
+        try {
+            const allMenus = await this.menuRepository
+                .findByCriteria({ createdBy: userId }, { orderBy: { targetDate: 'desc' } })
+                .then((x) =>
+                    x.map((y) => ({
+                        ...y,
+                        targetDate: new Date(y.targetDate).toISOString().substring(0, 10),
+                    }))
+                );
+            return baseAnswer(200, { allMenus }, {});
+        } catch (e) {
+            next(new HttpError(500, String(e), 'MenuService'));
+        }
+    }
+
+    public async getAllOrders(next: NextFunction) {
+        try {
+            const allMenus = await this.menuRepository
+                .findByCriteria({}, { orderBy: { targetDate: 'desc' } })
+                .then((x) =>
+                    x.map((y) => ({
+                        ...y,
+                        targetDate: new Date(y.targetDate).toISOString().substring(0, 10),
+                    }))
+                );
+            return baseAnswer(200, { allMenus }, {});
+        } catch (e) {
+            next(new HttpError(500, String(e), 'MenuService'));
+        }
+    }
+
+    public async getOrderById(orderId: string, next: NextFunction) {
+        try {
+            const order = await this.menuRepository.findRecordById(orderId);
+            return baseAnswer(
+                200,
+                { ...order, targetDate: new Date(order.targetDate).toISOString().substring(0, 10) },
+                {}
+            );
+        } catch (e) {
+            next(new HttpError(500, String(e), 'MenuService'));
+        }
+    }
 }
