@@ -29,6 +29,15 @@ export class DishService {
         }
     }
 
+    public async getDishById(id: string, next: NextFunction) {
+        try {
+            const data = await this.dishRepository.findRecordById(id);
+            return baseAnswer(200, data, []);
+        } catch (e) {
+            next(new HttpError(500, String(e), 'DishService'));
+        }
+    }
+
     public async getAllDishes(next: NextFunction) {
         try {
             let data = await this.dishRepository.findAll();

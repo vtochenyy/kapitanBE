@@ -10,6 +10,7 @@ import { HttpError } from '../errors/http-error.class';
 import { DishService } from './dish.service';
 import 'reflect-metadata';
 import { IIncomingQueryLogsMiddlewareInterface } from '../middlewares/logs/incomingQueryLogsMiddleware.interface';
+import { DishUpdateDtoIn } from './dto/in/dishUpdate.dto';
 
 @injectable()
 export class DishController extends BaseController implements IControllerInteface {
@@ -46,9 +47,16 @@ export class DishController extends BaseController implements IControllerIntefac
             },
             {
                 root: '/dish',
+                path: '/getById',
+                method: 'get',
+                func: this.getDishById,
+            },
+            {
+                root: '/dish',
                 path: '/update',
                 method: 'put',
                 func: this.updateDishById,
+                middlewares: [new ValidatorMiddlewareService(DishUpdateDtoIn, this.loggerService)],
             },
         ]);
     }
@@ -96,6 +104,15 @@ export class DishController extends BaseController implements IControllerIntefac
                 req.body,
                 next
             );
+            data && res.status(data.status).send(data);
+        } catch (e) {
+            next(new HttpError(400, 'Bad Request', 'DishController'));
+        }
+    }
+
+    public async getDishById(req: Request, res: Response, next: NextFunction) {
+        try {
+            const data = await this.dishService.getDishById(String(req.query.id), next);
             data && res.status(data.status).send(data);
         } catch (e) {
             next(new HttpError(400, 'Bad Request', 'DishController'));
