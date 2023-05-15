@@ -33,10 +33,12 @@ export class UserService {
 
     public async login(params: { login: string; password: string }, next: NextFunction) {
         try {
-            const targetUser = await this.userRepository.findByCriteria({ login: params.login });
-            if (!!targetUser.length) {
-                if (params.password === targetUser[0].password) {
-                    return baseAnswer(200, { isAuth: true }, {});
+            const targetUser = await this.userRepository
+                .findByCriteria({ login: params.login })
+                .then((x) => x[0]);
+            if (!!targetUser) {
+                if (params.password === targetUser.password) {
+                    return baseAnswer(200, { isAuth: true, userId: targetUser.id }, {});
                 } else {
                     throw new Error(
                         'User with this login found, but provided passwod is incorrect'

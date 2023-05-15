@@ -1,0 +1,515 @@
+{
+	"info": {
+		"_postman_id": "78a82c7d-5593-4237-9f38-c50eaca20aba",
+		"name": "Berloga",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "15238552"
+	},
+	"item": [
+		{
+			"name": "http://localhost:8222/dish/add",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "UserId",
+						"value": "81e8e311-cac3-4cdf-a901-20fe8bee049d",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"name\",\r\n    \"weight\": \"200g\",\r\n    \"protein\": 2,\r\n    \"fats\": 2,\r\n    \"carbohydrates\": 2,\r\n    \"calories\": 1000,\r\n    \"price\": 8.5\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8222/dish/add",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8222",
+					"path": [
+						"dish",
+						"add"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8222/dish/delete?id=a7757910-f22c-11ed-b6d8-2d3d2c7c82ea",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "UserId",
+						"value": "35fb2f6c-d6c7-42fe-9566-f9e1561e59c9",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8222/dish/delete?id=a7757910-f22c-11ed-b6d8-2d3d2c7c82ea",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8222",
+					"path": [
+						"dish",
+						"delete"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "a7757910-f22c-11ed-b6d8-2d3d2c7c82ea"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8222/dish/update",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "UserId",
+						"value": "35fb2f6c-d6c7-42fe-9566-f9e1561e59c9",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Отбивная из птицы в сухарях\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8222/dish/update?id=8b7573b0-f271-11ed-87b9-17bfcbfde318",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8222",
+					"path": [
+						"dish",
+						"update"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "8b7573b0-f271-11ed-87b9-17bfcbfde318"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8222/dish/all",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8222/dish/all",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8222",
+					"path": [
+						"dish",
+						"all"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8222/dish/getById?id=eb6ccbd0-f1d4-11ed-a6c2-715c8fc20a27",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8222/dish/getById?id=eb6ccbd0-f1d4-11ed-a6c2-715c8fc20a27",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8222",
+					"path": [
+						"dish",
+						"getById"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "eb6ccbd0-f1d4-11ed-a6c2-715c8fc20a27"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8222/user/register",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"login\": \"qwerty\",\r\n    \"password\": \"qwerty\",\r\n    \"name\": \"qwerty\",\r\n    \"lastname\": \"qwerty\",\r\n    \"middlename\": \"qwerty\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8222/user/register",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8222",
+					"path": [
+						"user",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8222/user/login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"login\": \"test\",\r\n    \"password\": \"test\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8222/user/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8222",
+					"path": [
+						"user",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8222/menu/createBuisnessLunch",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "UserId",
+						"value": "81e8e311-cac3-4cdf-a901-20fe8bee049d",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"targetDate\": \"2023-05-19\",\r\n    \"buisnessLunchDishes\": [\r\n        \"235a2720-f236-11ed-ba23-21b1633bf75f\",\r\n        \"24b7bb50-f236-11ed-ba23-21b1633bf75f\",\r\n        \"250b0b70-f236-11ed-ba23-21b1633bf75f\"\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8222/menu/createBuisnessLunch",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8222",
+					"path": [
+						"menu",
+						"createBuisnessLunch"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8222/menu/getBuisnessLunchByDate?targetDate=2023-05-16",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8222/menu/getBuisnessLunchByDate?targetDate=2023-05-18",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8222",
+					"path": [
+						"menu",
+						"getBuisnessLunchByDate"
+					],
+					"query": [
+						{
+							"key": "targetDate",
+							"value": "2023-05-18"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8222/menu/createOrder",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "UserId",
+						"value": "275b25e0-f24a-11ed-b24e-5bd773a8e337",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"targetDate\": \"2023-05-20\",\r\n     \"dishes\": [\r\n        \"235a2720-f236-11ed-ba23-21b1633bf75f\",\r\n        \"24b7bb50-f236-11ed-ba23-21b1633bf75f\",\r\n        \"250b0b70-f236-11ed-ba23-21b1633bf75f\"\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8222/menu/createOrder",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8222",
+					"path": [
+						"menu",
+						"createOrder"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8222/menu/getUserOrderByDate?targetDate=2023-05-18",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "UserId",
+						"value": "db89c840-f232-11ed-abcb-07f580bef197",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8222/menu/getUserOrderByDate?targetDate=2023-05-19",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8222",
+					"path": [
+						"menu",
+						"getUserOrderByDate"
+					],
+					"query": [
+						{
+							"key": "targetDate",
+							"value": "2023-05-19"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8222/menu/getAllUserOrders",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "UserId",
+						"value": "275b25e0-f24a-11ed-b24e-5bd773a8e337",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8222/menu/getAllUserOrders",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8222",
+					"path": [
+						"menu",
+						"getAllUserOrders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8222/menu/getAllOrders",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8222/menu/getAllOrders",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8222",
+					"path": [
+						"menu",
+						"getAllOrders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8222/menu/getOrderById?orderId=df5251e0-f246-11ed-a17d-53b27a876039",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8222/menu/getOrderById?orderId=df5251e0-f246-11ed-a17d-53b27a876039",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8222",
+					"path": [
+						"menu",
+						"getOrderById"
+					],
+					"query": [
+						{
+							"key": "orderId",
+							"value": "df5251e0-f246-11ed-a17d-53b27a876039"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8222/news/createNew",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "UserId",
+						"value": "81e8e311-cac3-4cdf-a901-20fe8bee049d",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\": \"title\",\r\n    \"description\": \"description description description\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8222/news/createNew",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8222",
+					"path": [
+						"news",
+						"createNew"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8222/news/deleteNewById?id=948b0e40-f250-11ed-a500-a9b051ef865e",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8222/news/deleteNewById?id=21dd7360-f250-11ed-92b1-6b8bc4adc325",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8222",
+					"path": [
+						"news",
+						"deleteNewById"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "21dd7360-f250-11ed-92b1-6b8bc4adc325"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8222/news/updateNewById?id=34e1a7f0-f251-11ed-80f0-1507037a1d13",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "",
+						"value": "",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8222/news/updateNewById?id=34e1a7f0-f251-11ed-80f0-1507037a1d13",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8222",
+					"path": [
+						"news",
+						"updateNewById"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "34e1a7f0-f251-11ed-80f0-1507037a1d13"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
