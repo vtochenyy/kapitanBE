@@ -24,13 +24,19 @@ import { NewsRepository } from './news/news.repository';
 import { INewsService } from './news/news.service.interface';
 import { NewsService } from './news/news.service';
 import { NewsController } from './news/news.controller';
-import "reflect-metadata";
 import { ContactsRepository } from './contacts/contacts.repository';
 import { ContactsService } from './contacts/contacts.service';
 import { ContactsController } from './contacts/contacts.controller';
 import { SettingsController } from './settings/settings.controller';
 import { SettingsService } from './settings/settings.service';
 import { SettingsRepository } from './settings/settings.repository';
+import { MentionsRepository } from './mentions/mentions.repository';
+import { MentionsController } from './mentions/mentions.controller';
+import { MentionsService } from './mentions/mentions.service';
+import { TeachersRepository } from './teachers/teachers.repository';
+import { TeachersController } from './teachers/teachers.controller';
+import { TeachersService } from './teachers/teachers.service';
+import "reflect-metadata";
 
 const appContainer: Container = new Container();
 
@@ -57,7 +63,12 @@ function bindDeps(): void {
   appContainer.bind<BaseRepository>(TYPES.SettingsRepository).to(SettingsRepository).inSingletonScope();
   appContainer.bind<SettingsController>(TYPES.SettingsController).to(SettingsController).inSingletonScope();
   appContainer.bind<SettingsService>(TYPES.SettingsService).to(SettingsService).inSingletonScope();
-
+  appContainer.bind<BaseRepository>(TYPES.MentionsRepository).to(MentionsRepository).inSingletonScope();
+  appContainer.bind<MentionsController>(TYPES.MentionsController).to(MentionsController).inSingletonScope();
+  appContainer.bind<MentionsService>(TYPES.MentionsService).to(MentionsService).inSingletonScope();
+  appContainer.bind<BaseRepository>(TYPES.TeachersRepository).to(TeachersRepository).inSingletonScope();
+  appContainer.bind<TeachersController>(TYPES.TeachersController).to(TeachersController).inSingletonScope();
+  appContainer.bind<TeachersService>(TYPES.TeachersService).to(TeachersService).inSingletonScope();
 }
 
 bindDeps();

@@ -16,6 +16,7 @@ import { NewsController } from './news/news.controller';
 import 'reflect-metadata';
 import { ContactsController } from './contacts/contacts.controller';
 import { SettingsController } from './settings/settings.controller';
+import { MentionsController } from './mentions/mentions.controller';
 
 @injectable()
 export class App {
@@ -34,7 +35,8 @@ export class App {
         @inject(TYPES.DatabaseService) private databaseService: IDatabaseService,
         @inject(TYPES.NewsController) private newsController: NewsController,
         @inject(TYPES.ContactsController) private contactsController: ContactsController,
-        @inject(TYPES.SettingsController) private settingsController: SettingsController
+        @inject(TYPES.SettingsController) private settingsController: SettingsController,
+        @inject(TYPES.MentionsController) private mentionsController: MentionsController
     ) {
         this.app = express();
         this.port = +this.configService.get('SERVER_PORT');
@@ -56,6 +58,7 @@ export class App {
         this.app.use('/news', this.newsController.router);
         this.app.use('/contacts', this.contactsController.router);
         this.app.use('/settings', this.settingsController.router);
+        this.app.use('/mentions', this.mentionsController.router);
     }
 
     public useErrorValidation() {

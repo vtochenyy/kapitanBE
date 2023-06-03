@@ -6,16 +6,15 @@ import { NextFunction, Request, Response } from 'express';
 import { HttpError } from '../errors/http-error.class';
 import { IControllerInteface } from '../common/controller.inteface';
 import { ValidatorMiddlewareService } from '../middlewares/validator/validatorMiddleware.service';
-import { CreateSettingDtoIn } from './dto/in/createSetting.dto';
-import { UpdateSettingDtoIn } from './dto/in/updateSetting.dto';
+import { IMentionsService } from './mentions.service.interface';
+import { CreateMentionDtoIn } from './dto/in/createMention.dto';
 import 'reflect-metadata';
-import { ISettingsService } from './settings.service.interface';
 
 @injectable()
-export class SettingsController extends BaseController implements IControllerInteface {
+export class MentionsController extends BaseController implements IControllerInteface {
     constructor(
         @inject(TYPES.Logger) private loggerService: ILogger,
-        @inject(TYPES.SettingsService) private newsService: ISettingsService
+        @inject(TYPES.MentionsService) private mentionsService: IMentionsService
     ) {
         super(loggerService);
         this.bindApi();
@@ -24,31 +23,31 @@ export class SettingsController extends BaseController implements IControllerInt
     public bindApi() {
         this.bindRoutes([
             {
-                root: '/settings',
+                root: '/mentions',
                 path: '/create',
                 method: 'post',
-                func: this.createSetting,
+                func: this.create,
                 middlewares: [
-                    new ValidatorMiddlewareService(CreateSettingDtoIn, this.loggerService),
+                    new ValidatorMiddlewareService(CreateMentionDtoIn, this.loggerService),
                 ],
             },
             {
-                root: '/settings',
-                path: '/updateSettingByTitle',
+                root: '/mentions',
+                path: '/updateById',
                 method: 'put',
-                func: this.updateSetting,
+                func: this.updateById,
                 middlewares: [
-                    new ValidatorMiddlewareService(UpdateSettingDtoIn, this.loggerService),
+                    new ValidatorMiddlewareService(CreateMentionDtoIn, this.loggerService),
                 ],
             },
             {
-                root: '/settings',
-                path: '/deleteSettingByTitle',
+                root: '/mentions',
+                path: '/deleteById',
                 method: 'delete',
-                func: this.deleteSetting,
+                func: this.deleteById,
             },
             {
-                root: '/settings',
+                root: '/mentions',
                 path: '/all',
                 method: 'get',
                 func: this.findAll,
@@ -56,23 +55,23 @@ export class SettingsController extends BaseController implements IControllerInt
         ]);
     }
 
-    public async createSetting(req: Request, res: Response, next: NextFunction) {
+    public async create(req: Request, res: Response, next: NextFunction) {
         try {
-            const data = await this.newsService.createSetting(
+            const data = await this.mentionsService.createMention(
                 String(req.headers.userid),
                 req.body,
                 next
             );
             data && res.status(data.status).send(data);
         } catch (e) {
-            next(new HttpError(400, 'Bad Request', 'SettingsController'));
+            next(new HttpError(400, 'Bad Request', 'MentionsController'));
         }
     }
 
-    public async updateSetting(req: Request, res: Response, next: NextFunction) {
+    public async updateById(req: Request, res: Response, next: NextFunction) {
         try {
-            const data = await this.newsService.updateSettingByTitle(
-                String(req.query.title),
+            const data = await this.mentionsService.updateMentionById(
+                String(req.query.id),
                 req.body,
                 next
             );
@@ -80,21 +79,21 @@ export class SettingsController extends BaseController implements IControllerInt
         } catch (e) {}
     }
 
-    public async deleteSetting(req: Request, res: Response, next: NextFunction) {
+    public async deleteById(req: Request, res: Response, next: NextFunction) {
         try {
-            const data = await this.newsService.deleteSettingByTitle(String(req.query.title), next);
+            const data = await this.mentionsService.deleteMentionById(String(req.query.id), next);
             data && res.status(data.status).send(data);
         } catch (e) {
-            next(new HttpError(400, 'Bad Request', 'SettingsController'));
+            next(new HttpError(400, 'Bad Request', 'MentionsController'));
         }
     }
 
     public async findAll(req: Request, res: Response, next: NextFunction) {
         try {
-            const data = await this.newsService.getSettings(next);
+            const data = await this.mentionsService.getAllMentions(next);
             data && res.status(data.status).send(data);
         } catch (e) {
-            next(new HttpError(400, 'Bad Request', 'SettingsController'));
+            next(new HttpError(400, 'Bad Request', 'MentionsController'));
         }
     }
 }

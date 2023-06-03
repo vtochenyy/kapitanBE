@@ -36,4 +36,10 @@ export const TYPES = {
     SettingsRepository: Symbol.for('SettingsRepository'),
     SettingsService: Symbol.for('SettingsService'),
     SettingsController: Symbol.for('SettingsController'),
+    MentionsRepository: Symbol.for('MentionsRepository'),
+    MentionsService: Symbol.for('MentionsService'),
+    MentionsController: Symbol.for('MentionsController'),
+    TeachersRepository: Symbol.for('TeachersRepository'),
+    TeachersService: Symbol.for('TeachersService'),
+    TeachersController: Symbol.for('TeachersController'),
 };

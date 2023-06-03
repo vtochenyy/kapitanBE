@@ -1,6 +1,6 @@
 import { IsNotEmpty, IsString, Length } from 'class-validator';
 
-export class CreateInfoDtoIn {
+export class CreateSettingDtoIn {
     @IsString()
     @IsNotEmpty()
     @Length(4, 100)
