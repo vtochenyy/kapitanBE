@@ -1,21 +1,21 @@
 import { NextFunction } from 'express';
 
-export interface INewsService {
-    createNew(
+export interface ITeacherService {
+    createTeacher(
         adminId: string,
         params: any,
         next: NextFunction
     ): Promise<{ status: number; data: any; paging: Object } | undefined>;
-    updateNewById(
+    updateTeacherById(
         recordId: string,
         params: any,
         next: NextFunction
     ): Promise<{ status: number; data: any; paging: Object } | undefined>;
-    deleteNewById(
+    deleteTeacherById(
         recordId: string,
         next: NextFunction
     ): Promise<{ status: number; data: any; paging: Object } | undefined>;
-    getAllNews(
+    getAllTeachers(
         next: NextFunction
     ): Promise<{ status: number; data: any; paging: Object } | undefined>;
 }

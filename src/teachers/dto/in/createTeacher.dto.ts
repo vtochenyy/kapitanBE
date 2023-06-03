@@ -1,15 +1,25 @@
 import { IsNotEmpty, IsOptional, IsString, Length } from 'class-validator';
 
-export class CreateNewDtoIn {
+export class CreateTeacherDtoIn {
     @IsString()
     @IsNotEmpty()
     @Length(4, 100)
-    private title: string;
+    private name: string;
 
     @IsString()
     @IsNotEmpty()
     @Length(4, 1000)
-    private description: string;
+    private lastname: string;
+
+    @IsString()
+    @IsNotEmpty()
+    @Length(4, 1000)
+    private middlename: string;
+
+    @IsString()
+    @IsNotEmpty()
+    @Length(4, 1000)
+    private position: string;
 
     @IsOptional()
     @IsString()

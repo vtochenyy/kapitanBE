@@ -44,12 +44,13 @@ model User {
 }
 
 model Teacher {
-  id         String   @unique @db.Uuid
-  name       String
-  lastname   String
-  middlename String
-  position   String
-  createdAt  DateTime @default(now())
+  id          String   @unique @db.Uuid
+  name        String
+  lastname    String
+  middlename  String
+  position    String
+  preview_img String?  @db.Text
+  createdAt   DateTime @default(now())
 }
 
 model IncomingQueriesLog {

@@ -6,15 +6,15 @@ import { NextFunction, Request, Response } from 'express';
 import { HttpError } from '../errors/http-error.class';
 import { IControllerInteface } from '../common/controller.inteface';
 import { ValidatorMiddlewareService } from '../middlewares/validator/validatorMiddleware.service';
-import { INewsService } from './teachers.service.interface';
-import { CreateNewDtoIn } from './dto/in/createTeacher.dto';
+import { ITeacherService } from './teachers.service.interface';
+import { CreateTeacherDtoIn } from './dto/in/createTeacher.dto';
 import 'reflect-metadata';
 
 @injectable()
 export class TeachersController extends BaseController implements IControllerInteface {
     constructor(
         @inject(TYPES.Logger) private loggerService: ILogger,
-        @inject(TYPES.NewsService) private newsService: INewsService
+        @inject(TYPES.TeachersService) private teachersService: ITeacherService
     ) {
         super(loggerService);
         this.bindApi();
@@ -23,27 +23,31 @@ export class TeachersController extends BaseController implements IControllerInt
     public bindApi() {
         this.bindRoutes([
             {
-                root: '/news',
-                path: '/createNew',
+                root: '/teachers',
+                path: '/create',
                 method: 'post',
                 func: this.createNew,
-                middlewares: [new ValidatorMiddlewareService(CreateNewDtoIn, this.loggerService)],
+                middlewares: [
+                    new ValidatorMiddlewareService(CreateTeacherDtoIn, this.loggerService),
+                ],
             },
             {
-                root: '/news',
-                path: '/updateNewById',
+                root: '/teachers',
+                path: '/updateById',
                 method: 'put',
                 func: this.updateNew,
-                middlewares: [new ValidatorMiddlewareService(CreateNewDtoIn, this.loggerService)],
+                middlewares: [
+                    new ValidatorMiddlewareService(CreateTeacherDtoIn, this.loggerService),
+                ],
             },
             {
-                root: '/news',
-                path: '/deleteNewById',
+                root: '/teachers',
+                path: '/deleteById',
                 method: 'delete',
                 func: this.deleteNew,
             },
             {
-                root: '/news',
+                root: '/teachers',
                 path: '/all',
                 method: 'get',
                 func: this.findAll,
@@ -53,7 +57,7 @@ export class TeachersController extends BaseController implements IControllerInt
 
     public async createNew(req: Request, res: Response, next: NextFunction) {
         try {
-            const data = await this.newsService.createNew(
+            const data = await this.teachersService.createTeacher(
                 String(req.headers.userid),
                 req.body,
                 next
@@ -66,14 +70,18 @@ export class TeachersController extends BaseController implements IControllerInt
 
     public async updateNew(req: Request, res: Response, next: NextFunction) {
         try {
-            const data = await this.newsService.updateNewById(String(req.query.id), req.body, next);
+            const data = await this.teachersService.updateTeacherById(
+                String(req.query.id),
+                req.body,
+                next
+            );
             data && res.status(data.status).send(data);
         } catch (e) {}
     }
 
     public async deleteNew(req: Request, res: Response, next: NextFunction) {
         try {
-            const data = await this.newsService.deleteNewById(String(req.query.id), next);
+            const data = await this.teachersService.deleteTeacherById(String(req.query.id), next);
             data && res.status(data.status).send(data);
         } catch (e) {
             next(new HttpError(400, 'Bad Request', 'TeachersController'));
@@ -82,7 +90,7 @@ export class TeachersController extends BaseController implements IControllerInt
 
     public async findAll(req: Request, res: Response, next: NextFunction) {
         try {
-            const data = await this.newsService.getAllNews(next);
+            const data = await this.teachersService.getAllTeachers(next);
             data && res.status(data.status).send(data);
         } catch (e) {
             next(new HttpError(400, 'Bad Request', 'TeachersController'));
