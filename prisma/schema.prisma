@@ -31,6 +31,7 @@ model Administrator {
   Mentions   Mentions[]
   PhotoAlbum PhotoAlbum[]
   Photo      Photo[]
+  Teacher    Teacher[]
 }
 
 model User {
@@ -44,13 +45,15 @@ model User {
 }
 
 model Teacher {
-  id          String   @unique @db.Uuid
+  id          String        @unique @db.Uuid
   name        String
   lastname    String
   middlename  String
   position    String
-  preview_img String?  @db.Text
-  createdAt   DateTime @default(now())
+  preview_img String?       @db.Text
+  createdAt   DateTime      @default(now())
+  createdBy   String        @db.Uuid
+  Admin       Administrator @relation(fields: [createdBy], references: [id])
 }
 
 model IncomingQueriesLog {

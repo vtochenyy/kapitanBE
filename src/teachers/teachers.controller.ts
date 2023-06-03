@@ -9,6 +9,7 @@ import { ValidatorMiddlewareService } from '../middlewares/validator/validatorMi
 import { ITeacherService } from './teachers.service.interface';
 import { CreateTeacherDtoIn } from './dto/in/createTeacher.dto';
 import 'reflect-metadata';
+import { UpdateTeacherDtoIn } from './dto/in/updateTeacher.dto';
 
 @injectable()
 export class TeachersController extends BaseController implements IControllerInteface {
@@ -37,7 +38,7 @@ export class TeachersController extends BaseController implements IControllerInt
                 method: 'put',
                 func: this.updateNew,
                 middlewares: [
-                    new ValidatorMiddlewareService(CreateTeacherDtoIn, this.loggerService),
+                    new ValidatorMiddlewareService(UpdateTeacherDtoIn, this.loggerService),
                 ],
             },
             {
