@@ -1,21 +1,21 @@
 import { NextFunction } from 'express';
 
-export interface INewsService {
-    createNew(
+export interface IContactsService {
+    createContact(
         adminId: string,
         params: any,
         next: NextFunction
     ): Promise<{ status: number; data: any; paging: Object } | undefined>;
-    updateNewById(
+    updateContactById(
         recordId: string,
         params: any,
         next: NextFunction
     ): Promise<{ status: number; data: any; paging: Object } | undefined>;
-    deleteNewById(
+    deleteContactById(
         recordId: string,
         next: NextFunction
     ): Promise<{ status: number; data: any; paging: Object } | undefined>;
-    getAllNews(
+    getAllContacts(
         next: NextFunction
     ): Promise<{ status: number; data: any; paging: Object } | undefined>;
 }

@@ -2,7 +2,6 @@ import { BaseController } from '../common/base.controller';
 import { inject, injectable } from 'inversify';
 import { TYPES } from '../types';
 import { ILogger } from '../logger/logger.interface';
-import { DishService } from '../dish/dish.service';
 import { NextFunction, Request, Response } from 'express';
 import { HttpError } from '../errors/http-error.class';
 import { IControllerInteface } from '../common/controller.inteface';
@@ -15,7 +14,6 @@ import 'reflect-metadata';
 export class NewsController extends BaseController implements IControllerInteface {
     constructor(
         @inject(TYPES.Logger) private loggerService: ILogger,
-        @inject(TYPES.DishService) private dishService: DishService,
         @inject(TYPES.NewsService) private newsService: INewsService
     ) {
         super(loggerService);
@@ -44,6 +42,12 @@ export class NewsController extends BaseController implements IControllerIntefac
                 method: 'delete',
                 func: this.deleteNew,
             },
+            {
+                root: '/news',
+                path: '/all',
+                method: 'get',
+                func: this.findAll,
+            },
         ]);
     }
 
@@ -70,6 +74,15 @@ export class NewsController extends BaseController implements IControllerIntefac
     public async deleteNew(req: Request, res: Response, next: NextFunction) {
         try {
             const data = await this.newsService.deleteNewById(String(req.query.id), next);
+            data && res.status(data.status).send(data);
+        } catch (e) {
+            next(new HttpError(400, 'Bad Request', 'NewsController'));
+        }
+    }
+
+    public async findAll(req: Request, res: Response, next: NextFunction) {
+        try {
+            const data = await this.newsService.getAllNews(next);
             data && res.status(data.status).send(data);
         } catch (e) {
             next(new HttpError(400, 'Bad Request', 'NewsController'));

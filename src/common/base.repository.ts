@@ -41,6 +41,14 @@ export abstract class BaseRepository {
         });
     }
 
+    public async updateByParams(find_params: any, params: any): Promise<any> {
+        // @ts-ignore
+        return await this.client[this.model].update({
+            where: { ...find_params },
+            data: { ...params },
+        });
+    }
+
     public async findRecordById(recordId: string): Promise<any> {
         // @ts-ignore
         return await this.client[this.model].findUnique({
@@ -81,6 +89,15 @@ export abstract class BaseRepository {
         try {
             // @ts-ignore
             return await this.client[this.model].delete({ where: { id: recordId } });
+        } catch (err: any) {
+            return { error: err?.message };
+        }
+    }
+
+    public async deleteByParams(params: any): Promise<any> {
+        try {
+            // @ts-ignore
+            return await this.client[this.model].delete({ where: { ...params } });
         } catch (err: any) {
             return { error: err?.message };
         }

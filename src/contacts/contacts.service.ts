@@ -3,53 +3,53 @@ import { inject, injectable } from 'inversify';
 import { TYPES } from '../types';
 import { ILogger } from '../logger/logger.interface';
 import { BaseRepository } from '../common/base.repository';
-import { INewsService } from './news.service.interface';
+import { IContactsService } from './contacts.service.interface';
 import { baseAnswer } from '../common/baseAnswer';
 import { HttpError } from '../errors/http-error.class';
 import 'reflect-metadata';
 
 @injectable()
-export class NewsService implements INewsService {
+export class ContactsService implements IContactsService {
     constructor(
         @inject(TYPES.Logger) private logger: ILogger,
-        @inject(TYPES.NewsRepository)
-        private newsRepository: BaseRepository
+        @inject(TYPES.ContactsRepository)
+        private contactsRepository: BaseRepository
     ) {}
 
-    public async createNew(adminId: string, params: any, next: NextFunction) {
+    public async createContact(adminId: string, params: any, next: NextFunction) {
         try {
             params = { ...params, createdBy: adminId };
-            const data = await this.newsRepository.create(params);
+            const data = await this.contactsRepository.create(params);
             return baseAnswer(201, data, {});
         } catch (e) {
-            next(new HttpError(500, String(e), 'NewsService'));
+            next(new HttpError(500, String(e), 'ContactsService'));
         }
     }
 
-    public async updateNewById(recordId: string, params: any, next: NextFunction) {
+    public async updateContactById(recordId: string, params: any, next: NextFunction) {
         try {
-            const data = await this.newsRepository.update(recordId, params);
+            const data = await this.contactsRepository.update(recordId, params);
             return baseAnswer(200, data, {});
         } catch (e) {
-            next(new HttpError(500, String(e), 'NewsService'));
+            next(new HttpError(500, String(e), 'ContactsService'));
         }
     }
 
-    public async deleteNewById(recordId: string, next: NextFunction) {
+    public async deleteContactById(recordId: string, next: NextFunction) {
         try {
-            const data = await this.newsRepository.deleteById(recordId);
+            const data = await this.contactsRepository.deleteById(recordId);
             if (!!data.error) {
                 throw new Error(data.error);
             }
             return baseAnswer(200, data, {});
         } catch (e) {
-            next(new HttpError(500, String(e), 'NewsService'));
+            next(new HttpError(500, String(e), 'ContactsService'));
         }
     }
 
-    public async getAllNews(next: NextFunction) {
+    public async getAllContacts(next: NextFunction) {
         try {
-            const data = await this.newsRepository.findByCriteria(
+            const data = await this.contactsRepository.findByCriteria(
                 {},
                 {
                     orderBy: [{ createdAt: 'desc' }],
@@ -57,7 +57,7 @@ export class NewsService implements INewsService {
             );
             return baseAnswer(200, data, {});
         } catch (e) {
-            next(new HttpError(500, String(e), 'NewsService'));
+            next(new HttpError(500, String(e), 'ContactsService'));
         }
     }
 }

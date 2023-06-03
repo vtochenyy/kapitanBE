@@ -6,11 +6,11 @@ import 'reflect-metadata';
 import { ILogger } from '../logger/logger.interface';
 
 @injectable()
-export class DishToBuisnessLunchRepository extends BaseRepository {
+export class SettingsRepository extends BaseRepository {
     constructor(
         @inject(TYPES.DatabaseService) protected databaseService: IDatabaseService,
         @inject(TYPES.Logger) private logger: ILogger
     ) {
-        super('DishToBuisnessLunch', databaseService);
+        super('Settings', databaseService);
     }
 }

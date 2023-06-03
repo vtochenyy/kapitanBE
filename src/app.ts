@@ -5,17 +5,17 @@ import { injectable, inject } from 'inversify';
 import { TYPES } from './types';
 import { ILogger } from './logger/logger.interface';
 import { IConfigService } from './config/config.service.interface';
-import { DishController } from './dish/dish.controller';
 import timeout from 'connect-timeout';
 import { IExeptionFilter } from './errors/exeption.filter.interface';
 import { IIncomingQueryLogsMiddlewareInterface } from './middlewares/logs/incomingQueryLogsMiddleware.interface';
-import { MenuController } from './menu/menu.controller';
 import { AdminController } from './admin/admin.controller';
 import { responseHeaderSetterMiddleware } from './middlewares/responseHeaderSetter.middleware';
 import { UserController } from './user/user.controller';
 import { IDatabaseService } from './db/databaseService.interface';
-import 'reflect-metadata';
 import { NewsController } from './news/news.controller';
+import 'reflect-metadata';
+import { ContactsController } from './contacts/contacts.controller';
+import { SettingsController } from './settings/settings.controller';
 
 @injectable()
 export class App {
@@ -26,15 +26,15 @@ export class App {
     constructor(
         @inject(TYPES.Logger) private logger: ILogger,
         @inject(TYPES.ConfigService) private configService: IConfigService,
-        @inject(TYPES.DishController) private dishController: DishController,
         @inject(TYPES.ExeptionFilter) private exeptionFilter: IExeptionFilter,
         @inject(TYPES.IncomingQueryLogsMeddlewareService)
         private incomingQueryLogsMeddlewareService: IIncomingQueryLogsMiddlewareInterface,
-        @inject(TYPES.MenuController) private menuController: MenuController,
         @inject(TYPES.UserController) private userController: UserController,
         @inject(TYPES.AdminController) private adminController: AdminController,
         @inject(TYPES.DatabaseService) private databaseService: IDatabaseService,
-        @inject(TYPES.NewsController) private newsController: NewsController
+        @inject(TYPES.NewsController) private newsController: NewsController,
+        @inject(TYPES.ContactsController) private contactsController: ContactsController,
+        @inject(TYPES.SettingsController) private settingsController: SettingsController
     ) {
         this.app = express();
         this.port = +this.configService.get('SERVER_PORT');
@@ -51,11 +51,11 @@ export class App {
                 this.incomingQueryLogsMeddlewareService
             )
         );
-        this.app.use('/dish', this.dishController.router);
-        this.app.use('/menu', this.menuController.router);
         this.app.use('/admin', this.adminController.router);
         this.app.use('/user', this.userController.router);
         this.app.use('/news', this.newsController.router);
+        this.app.use('/contacts', this.contactsController.router);
+        this.app.use('/settings', this.settingsController.router);
     }
 
     public useErrorValidation() {

@@ -18,87 +18,26 @@ model News {
 }
 
 model Administrator {
-  id                  String                @unique @db.Uuid
-  name                String
-  login               String                @unique
-  password            String
-  surname             String
-  middlename          String
-  createdAt           DateTime              @default(now())
-  News                News[]
-  Dish                Dish[]
-  BuisnessLunch       BuisnessLunch[]
-  DishToBuisnessLunch DishToBuisnessLunch[]
-}
-
-model DishToMenu {
-  id        String   @unique @db.Uuid
-  Menu      Menu     @relation(fields: [menuId], references: [id])
-  menuId    String   @db.Uuid
-  dishId    String   @db.Uuid
-  Dish      Dish     @relation(fields: [dishId], references: [id])
-  createdAt DateTime @default(now())
-  createdBy String   @db.Uuid
-  User      User     @relation(fields: [createdBy], references: [id])
-}
-
-model Menu {
-  id              String         @unique @db.Uuid
-  user            User           @relation(fields: [createdBy], references: [id])
-  createdBy       String         @db.Uuid
-  buisnessLunchId String?        @db.Uuid
-  targetDate      DateTime       @db.Date
-  BuisnessLunch   BuisnessLunch? @relation(fields: [buisnessLunchId], references: [id])
-  DishToMenu      DishToMenu[]
-  createdAt       DateTime       @default(now())
+  id         String     @unique @db.Uuid
+  name       String
+  login      String     @unique
+  password   String
+  surname    String
+  middlename String
+  createdAt  DateTime   @default(now())
+  News       News[]
+  Contacts   Contacts[]
+  Settings   Settings[]
 }
 
 model User {
-  id         String       @unique @db.Uuid
-  login      String       @unique
+  id         String   @unique @db.Uuid
+  login      String   @unique
   password   String
   name       String
   lastname   String
   middlename String
-  menu       Menu[]
-  createdAt  DateTime     @default(now())
-  DishToMenu DishToMenu[]
-}
-
-model Dish {
-  id                  String                @unique @db.Uuid
-  name                String
-  weight              String
-  protein             Int
-  fats                Int
-  carbohydrates       Int
-  calories            Float
-  price               Float
-  DishToMenu          DishToMenu[]
-  createdAt           DateTime              @default(now())
-  createdBy           String                @db.Uuid
-  Admin               Administrator         @relation(fields: [createdBy], references: [id])
-  DishToBuisnessLunch DishToBuisnessLunch[]
-}
-
-model DishToBuisnessLunch {
-  id              String        @unique @db.Uuid
-  buisnessLunchId String        @db.Uuid
-  dishId          String        @db.Uuid
-  createdAt       DateTime      @default(now())
-  createdBy       String        @db.Uuid
-  Admin           Administrator @relation(fields: [createdBy], references: [id])
-  BuisnessLunch   BuisnessLunch @relation(fields: [buisnessLunchId], references: [id])
-  Dish            Dish          @relation(fields: [dishId], references: [id])
-}
-
-model BuisnessLunch {
-  id                  String                @unique @db.Uuid
-  targetDate          DateTime              @unique @db.Date
-  createdBy           String                @db.Uuid
-  Admin               Administrator         @relation(fields: [createdBy], references: [id])
-  Menu                Menu[]
-  DishToBuisnessLunch DishToBuisnessLunch[]
+  createdAt  DateTime @default(now())
 }
 
 model IncomingQueriesLog {
@@ -108,4 +47,26 @@ model IncomingQueriesLog {
   headers     String
   requestBody String?
   createdAt   DateTime @default(now())
+}
+
+model Contacts {
+  id          String        @unique @db.Uuid
+  photo       String?       @db.Text
+  phoneNumber String
+  position    String
+  name        String
+  lastname    String
+  middlename  String
+  createdAt   DateTime      @default(now())
+  createdBy   String        @db.Uuid
+  Admin       Administrator @relation(fields: [createdBy], references: [id])
+}
+
+model Settings {
+  id          String        @unique @db.Uuid
+  title       String        @unique
+  description String
+  createdAt   DateTime      @default(now())
+  createdBy   String        @db.Uuid
+  Admin       Administrator @relation(fields: [createdBy], references: [id])
 }
