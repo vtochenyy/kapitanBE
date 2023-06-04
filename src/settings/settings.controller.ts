@@ -8,8 +8,8 @@ import { IControllerInteface } from '../common/controller.inteface';
 import { ValidatorMiddlewareService } from '../middlewares/validator/validatorMiddleware.service';
 import { CreateSettingDtoIn } from './dto/in/createSetting.dto';
 import { UpdateSettingDtoIn } from './dto/in/updateSetting.dto';
-import 'reflect-metadata';
 import { ISettingsService } from './settings.service.interface';
+import 'reflect-metadata';
 
 @injectable()
 export class SettingsController extends BaseController implements IControllerInteface {
@@ -53,6 +53,12 @@ export class SettingsController extends BaseController implements IControllerInt
                 method: 'get',
                 func: this.findAll,
             },
+            {
+                root: '/settings',
+                path: '/getByTitle',
+                method: 'get',
+                func: this.getSettingByTitle,
+            },
         ]);
     }
 
@@ -92,6 +98,15 @@ export class SettingsController extends BaseController implements IControllerInt
     public async findAll(req: Request, res: Response, next: NextFunction) {
         try {
             const data = await this.newsService.getSettings(next);
+            data && res.status(data.status).send(data);
+        } catch (e) {
+            next(new HttpError(400, 'Bad Request', 'SettingsController'));
+        }
+    }
+
+    public async getSettingByTitle(req: Request, res: Response, next: NextFunction) {
+        try {
+            const data = await this.newsService.getSettingByTitle(String(req.query.title), next);
             data && res.status(data.status).send(data);
         } catch (e) {
             next(new HttpError(400, 'Bad Request', 'SettingsController'));

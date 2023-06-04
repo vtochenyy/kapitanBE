@@ -38,7 +38,7 @@ export class UserService {
                 .then((x) => x[0]);
             if (!!targetUser) {
                 if (params.password === targetUser.password) {
-                    return baseAnswer(200, { isAuth: true, userId: targetUser.id }, {});
+                    return baseAnswer(200, { isAuth: true, data: targetUser }, {});
                 } else {
                     throw new Error(
                         'User with this login found, but provided passwod is incorrect'
@@ -47,6 +47,24 @@ export class UserService {
             } else {
                 throw new Error('User with this login was not found');
             }
+        } catch (e) {
+            next(new HttpError(500, String(e), 'UserService'));
+        }
+    }
+
+    public async findAll(next: NextFunction) {
+        try {
+            const data = await this.userRepository.findAll();
+            return baseAnswer(200, data, {});
+        } catch (e) {
+            next(new HttpError(500, String(e), 'UserService'));
+        }
+    }
+
+    public async findById(id: string, next: NextFunction) {
+        try {
+            const data = await this.userRepository.findRecordById(id);
+            return baseAnswer(200, data, {});
         } catch (e) {
             next(new HttpError(500, String(e), 'UserService'));
         }

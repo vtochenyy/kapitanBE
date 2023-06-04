@@ -48,6 +48,12 @@ export class NewsController extends BaseController implements IControllerIntefac
                 method: 'get',
                 func: this.findAll,
             },
+            {
+                root: '/news',
+                path: '/findById',
+                method: 'get',
+                func: this.findById,
+            },
         ]);
     }
 
@@ -83,6 +89,15 @@ export class NewsController extends BaseController implements IControllerIntefac
     public async findAll(req: Request, res: Response, next: NextFunction) {
         try {
             const data = await this.newsService.getAllNews(next);
+            data && res.status(data.status).send(data);
+        } catch (e) {
+            next(new HttpError(400, 'Bad Request', 'NewsController'));
+        }
+    }
+
+    public async findById(req: Request, res: Response, next: NextFunction) {
+        try {
+            const data = await this.newsService.findNewById(String(req.query.id), next);
             data && res.status(data.status).send(data);
         } catch (e) {
             next(new HttpError(400, 'Bad Request', 'NewsController'));

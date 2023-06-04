@@ -60,4 +60,13 @@ export class NewsService implements INewsService {
             next(new HttpError(500, String(e), 'NewsService'));
         }
     }
+
+    public async findNewById(recordId: string, next: NextFunction) {
+        try {
+            const data = await this.newsRepository.findRecordById(recordId);
+            return baseAnswer(200, data, {});
+        } catch (e) {
+            next(new HttpError(500, String(e), 'NewsService'));
+        }
+    }
 }

@@ -15,6 +15,10 @@ export interface INewsService {
         recordId: string,
         next: NextFunction
     ): Promise<{ status: number; data: any; paging: Object } | undefined>;
+    findNewById(
+        recordId: string,
+        next: NextFunction
+    ): Promise<{ status: number; data: any; paging: Object } | undefined>;
     getAllNews(
         next: NextFunction
     ): Promise<{ status: number; data: any; paging: Object } | undefined>;

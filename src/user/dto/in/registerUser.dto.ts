@@ -1,10 +1,16 @@
-import { IsNotEmpty, IsString, Length } from 'class-validator';
+import { IsIn, IsNotEmpty, IsString, Length } from 'class-validator';
 
 export class RegisterUserDtoIn {
     @IsString()
     @IsNotEmpty()
     @Length(4, 50)
     private login: string;
+
+    @Length(4, 50)
+    @IsIn(['admin', 'user'])
+    @IsString()
+    @IsNotEmpty()
+    private role: string;
 
     @IsString()
     @IsNotEmpty()

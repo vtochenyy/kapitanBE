@@ -7,53 +7,49 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model News {
-  id          String        @unique @db.Uuid
-  title       String
-  description String
-  preview_img String?       @db.Text
-  createdAt   DateTime      @default(now())
-  createdBy   String        @db.Uuid
-  Admin       Administrator @relation(fields: [createdBy], references: [id])
+enum Roles {
+  admin
+  user
 }
 
-model Administrator {
+model News {
+  id          String   @unique @db.Uuid
+  title       String
+  description String
+  preview_img String?  @db.Text
+  createdAt   DateTime @default(now())
+  createdBy   String   @db.Uuid
+  User        User     @relation(fields: [createdBy], references: [id])
+}
+
+model User {
   id         String       @unique @db.Uuid
-  name       String
   login      String       @unique
   password   String
-  surname    String
+  name       String
+  lastname   String
   middlename String
+  role       Roles
   createdAt  DateTime     @default(now())
   News       News[]
+  Teacher    Teacher[]
   Contacts   Contacts[]
   Settings   Settings[]
   Mentions   Mentions[]
   PhotoAlbum PhotoAlbum[]
   Photo      Photo[]
-  Teacher    Teacher[]
-}
-
-model User {
-  id         String   @unique @db.Uuid
-  login      String   @unique
-  password   String
-  name       String
-  lastname   String
-  middlename String
-  createdAt  DateTime @default(now())
 }
 
 model Teacher {
-  id          String        @unique @db.Uuid
+  id          String   @unique @db.Uuid
   name        String
   lastname    String
   middlename  String
   position    String
-  preview_img String?       @db.Text
-  createdAt   DateTime      @default(now())
-  createdBy   String        @db.Uuid
-  Admin       Administrator @relation(fields: [createdBy], references: [id])
+  preview_img String?  @db.Text
+  createdAt   DateTime @default(now())
+  createdBy   String   @db.Uuid
+  User        User     @relation(fields: [createdBy], references: [id])
 }
 
 model IncomingQueriesLog {
@@ -66,53 +62,53 @@ model IncomingQueriesLog {
 }
 
 model Contacts {
-  id          String        @unique @db.Uuid
-  photo       String?       @db.Text
+  id          String   @unique @db.Uuid
+  photo       String?  @db.Text
   phoneNumber String
   position    String
   name        String
   lastname    String
   middlename  String
-  createdAt   DateTime      @default(now())
-  createdBy   String        @db.Uuid
-  Admin       Administrator @relation(fields: [createdBy], references: [id])
+  createdAt   DateTime @default(now())
+  createdBy   String   @db.Uuid
+  User        User     @relation(fields: [createdBy], references: [id])
 }
 
 model Settings {
-  id          String        @unique @db.Uuid
-  title       String        @unique
+  id          String   @unique @db.Uuid
+  title       String   @unique
   description String
-  createdAt   DateTime      @default(now())
-  createdBy   String        @db.Uuid
-  Admin       Administrator @relation(fields: [createdBy], references: [id])
+  createdAt   DateTime @default(now())
+  createdBy   String   @db.Uuid
+  User        User     @relation(fields: [createdBy], references: [id])
 }
 
 model Mentions {
-  id          String        @unique @db.Uuid
+  id          String   @unique @db.Uuid
   title       String
   description String
-  preview_img String?       @db.Text
-  createdAt   DateTime      @default(now())
-  createdBy   String        @db.Uuid
-  Admin       Administrator @relation(fields: [createdBy], references: [id])
+  preview_img String?  @db.Text
+  createdAt   DateTime @default(now())
+  createdBy   String   @db.Uuid
+  User        User     @relation(fields: [createdBy], references: [id])
 }
 
 model PhotoAlbum {
-  id          String        @unique @db.Uuid
+  id          String   @unique @db.Uuid
   title       String
   description String?
-  createdAt   DateTime      @default(now())
-  createdBy   String        @db.Uuid
-  Admin       Administrator @relation(fields: [createdBy], references: [id])
+  createdAt   DateTime @default(now())
+  createdBy   String   @db.Uuid
+  User        User     @relation(fields: [createdBy], references: [id])
   Photo       Photo[]
 }
 
 model Photo {
-  id        String        @unique @db.Uuid
-  photo     String        @db.Text
-  albumId   String        @db.Uuid
-  Album     PhotoAlbum    @relation(fields: [albumId], references: [id])
-  createdAt DateTime      @default(now())
-  createdBy String        @db.Uuid
-  Admin     Administrator @relation(fields: [createdBy], references: [id])
+  id        String     @unique @db.Uuid
+  photo     String     @db.Text
+  albumId   String     @db.Uuid
+  Album     PhotoAlbum @relation(fields: [albumId], references: [id])
+  createdAt DateTime   @default(now())
+  createdBy String     @db.Uuid
+  User      User       @relation(fields: [createdBy], references: [id])
 }

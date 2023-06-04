@@ -63,12 +63,14 @@ export class SettingsService implements ISettingsService {
 
     public async getSettingByTitle(title: string, next: NextFunction) {
         try {
-            const data = await this.settingsRepository.findByCriteria(
-                {},
-                {
-                    orderBy: [{ createdAt: 'desc' }],
-                }
-            );
+            const data = await this.settingsRepository
+                .findByCriteria(
+                    { title: title },
+                    {
+                        orderBy: [{ createdAt: 'desc' }],
+                    }
+                )
+                .then((x) => x[0]);
             return baseAnswer(200, data, {});
         } catch (e) {
             next(new HttpError(500, String(e), 'SettingsService'));

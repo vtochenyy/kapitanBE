@@ -20,7 +20,7 @@ export class AdminService {
             }
             const admin = requestedAdmin[0];
             if (admin.password === params.password) {
-                return baseAnswer(200, { isAuth: true }, []);
+                return baseAnswer(200, { isAuth: true, user: admin }, []);
             } else {
                 throw new Error('Неверный пароль');
             }
