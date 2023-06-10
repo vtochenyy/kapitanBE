@@ -18,4 +18,8 @@ export interface ITeacherService {
     getAllTeachers(
         next: NextFunction
     ): Promise<{ status: number; data: any; paging: Object } | undefined>;
+    getAllNewsWithContains(
+        aggregation: string,
+        next: NextFunction
+    ): Promise<{ status: number; data: any; paging: Object } | undefined>;
 }

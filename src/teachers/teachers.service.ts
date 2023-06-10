@@ -60,4 +60,36 @@ export class TeachersService implements ITeacherService {
             next(new HttpError(500, String(e), 'TeachersService'));
         }
     }
+
+    public async getAllNewsWithContains(aggregation: string, next: NextFunction) {
+        try {
+            const data = await this.teachersRepository.findByCriteria(
+                {
+                    OR: [
+                        {
+                            lastname: {
+                                contains: aggregation,
+                            },
+                        },
+                        {
+                            name: {
+                                contains: aggregation,
+                            },
+                        },
+                        {
+                            middlename: {
+                                contains: aggregation,
+                            },
+                        },
+                    ],
+                },
+                {
+                    orderBy: [{ createdAt: 'desc' }],
+                }
+            );
+            return baseAnswer(200, data, {});
+        } catch (e) {
+            next(new HttpError(500, String(e), 'NewsService'));
+        }
+    }
 }

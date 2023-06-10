@@ -53,6 +53,12 @@ export class TeachersController extends BaseController implements IControllerInt
                 method: 'get',
                 func: this.findAll,
             },
+            {
+                root: '/teachers',
+                path: '/findByAggregation',
+                method: 'get',
+                func: this.findByAggregation,
+            },
         ]);
     }
 
@@ -95,6 +101,18 @@ export class TeachersController extends BaseController implements IControllerInt
             data && res.status(data.status).send(data);
         } catch (e) {
             next(new HttpError(400, 'Bad Request', 'TeachersController'));
+        }
+    }
+
+    public async findByAggregation(req: Request, res: Response, next: NextFunction) {
+        try {
+            const data = await this.teachersService.getAllNewsWithContains(
+                String(req.query.aggregation),
+                next
+            );
+            data && res.status(data.status).send(data);
+        } catch (e) {
+            next(new HttpError(400, 'Bad Request', 'NewsController'));
         }
     }
 }
