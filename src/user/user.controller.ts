@@ -50,6 +50,12 @@ export class UserController extends BaseController {
                 method: 'get',
                 func: this.findById,
             },
+            {
+                root: '/user',
+                path: '/me',
+                method: 'get',
+                func: this.me,
+            },
         ]);
     }
 
@@ -83,6 +89,15 @@ export class UserController extends BaseController {
     public async findById(req: Request, res: Response, next: NextFunction) {
         try {
             let data = await this.userService.findById(String(req.query.id), next);
+            data && res.status(data.status).send(data);
+        } catch (e) {
+            next(new HttpError(400, 'Bad Request', 'UserController'));
+        }
+    }
+
+    public async me(req: Request, res: Response, next: NextFunction) {
+        try {
+            let data = await this.userService.me(String(req.headers.userid), next);
             data && res.status(data.status).send(data);
         } catch (e) {
             next(new HttpError(400, 'Bad Request', 'UserController'));

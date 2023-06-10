@@ -54,6 +54,12 @@ export class NewsController extends BaseController implements IControllerIntefac
                 method: 'get',
                 func: this.findById,
             },
+            {
+                root: '/news',
+                path: '/findByAggregation',
+                method: 'get',
+                func: this.findByAggregation,
+            },
         ]);
     }
 
@@ -98,6 +104,18 @@ export class NewsController extends BaseController implements IControllerIntefac
     public async findById(req: Request, res: Response, next: NextFunction) {
         try {
             const data = await this.newsService.findNewById(String(req.query.id), next);
+            data && res.status(data.status).send(data);
+        } catch (e) {
+            next(new HttpError(400, 'Bad Request', 'NewsController'));
+        }
+    }
+
+    public async findByAggregation(req: Request, res: Response, next: NextFunction) {
+        try {
+            const data = await this.newsService.getAllNewsWithContains(
+                String(req.query.aggregation),
+                next
+            );
             data && res.status(data.status).send(data);
         } catch (e) {
             next(new HttpError(400, 'Bad Request', 'NewsController'));

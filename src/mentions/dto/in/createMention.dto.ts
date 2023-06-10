@@ -8,7 +8,7 @@ export class CreateMentionDtoIn {
 
     @IsString()
     @IsNotEmpty()
-    @Length(4, 1000)
+    @Length(4, 10000)
     private description: string;
 
     @IsOptional()

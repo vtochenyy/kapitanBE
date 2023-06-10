@@ -77,7 +77,7 @@ model Contacts {
 model Settings {
   id          String   @unique @db.Uuid
   title       String   @unique
-  description String
+  description String   @db.Text
   createdAt   DateTime @default(now())
   createdBy   String   @db.Uuid
   User        User     @relation(fields: [createdBy], references: [id])

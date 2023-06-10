@@ -69,4 +69,13 @@ export class UserService {
             next(new HttpError(500, String(e), 'UserService'));
         }
     }
+
+    public async me(userId: string, next: NextFunction) {
+        try {
+            const user = await this.userRepository.findRecordById(userId);
+            return baseAnswer(200, user, {});
+        } catch (e) {
+            next(new HttpError(500, String(e), 'UserService'));
+        }
+    }
 }

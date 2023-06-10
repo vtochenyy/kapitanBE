@@ -52,6 +52,12 @@ export class MentionsController extends BaseController implements IControllerInt
                 method: 'get',
                 func: this.findAll,
             },
+            {
+                root: '/mentions',
+                path: '/findById',
+                method: 'get',
+                func: this.findById,
+            },
         ]);
     }
 
@@ -91,6 +97,15 @@ export class MentionsController extends BaseController implements IControllerInt
     public async findAll(req: Request, res: Response, next: NextFunction) {
         try {
             const data = await this.mentionsService.getAllMentions(next);
+            data && res.status(data.status).send(data);
+        } catch (e) {
+            next(new HttpError(400, 'Bad Request', 'MentionsController'));
+        }
+    }
+
+    public async findById(req: Request, res: Response, next: NextFunction) {
+        try {
+            const data = await this.mentionsService.findMentionById(String(req.query.id), next);
             data && res.status(data.status).send(data);
         } catch (e) {
             next(new HttpError(400, 'Bad Request', 'MentionsController'));

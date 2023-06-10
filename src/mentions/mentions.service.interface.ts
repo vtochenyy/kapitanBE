@@ -15,6 +15,10 @@ export interface IMentionsService {
         recordId: string,
         next: NextFunction
     ): Promise<{ status: number; data: any; paging: Object } | undefined>;
+    findMentionById(
+        id: string,
+        next: NextFunction
+    ): Promise<{ status: number; data: any; paging: Object } | undefined>;
     getAllMentions(
         next: NextFunction
     ): Promise<{ status: number; data: any; paging: Object } | undefined>;

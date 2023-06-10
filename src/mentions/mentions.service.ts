@@ -7,13 +7,15 @@ import { IMentionsService } from './mentions.service.interface';
 import { baseAnswer } from '../common/baseAnswer';
 import { HttpError } from '../errors/http-error.class';
 import 'reflect-metadata';
+import { UserRepository } from '../user/user.repository';
 
 @injectable()
 export class MentionsService implements IMentionsService {
     constructor(
         @inject(TYPES.Logger) private logger: ILogger,
         @inject(TYPES.MentionsRepository)
-        private mentionsRepository: BaseRepository
+        private mentionsRepository: BaseRepository,
+        @inject(TYPES.UserRepository) private userRepository: UserRepository
     ) {}
 
     public async createMention(adminId: string, params: any, next: NextFunction) {
@@ -53,8 +55,20 @@ export class MentionsService implements IMentionsService {
                 {},
                 {
                     orderBy: [{ createdAt: 'desc' }],
+                    include: { User: true },
                 }
             );
+            return baseAnswer(200, data, {});
+        } catch (e) {
+            next(new HttpError(500, String(e), 'MentionsService'));
+        }
+    }
+
+    public async findMentionById(id: string, next: NextFunction) {
+        try {
+            const data = await this.mentionsRepository
+                .findByCriteria({ id: id }, { include: { User: true } })
+                .then((x) => x[0]);
             return baseAnswer(200, data, {});
         } catch (e) {
             next(new HttpError(500, String(e), 'MentionsService'));
