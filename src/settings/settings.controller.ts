@@ -83,7 +83,9 @@ export class SettingsController extends BaseController implements IControllerInt
                 next
             );
             data && res.status(data.status).send(data);
-        } catch (e) {}
+        } catch (e) {
+            next(new HttpError(400, 'Bad Request', 'SettingsController'));
+        }
     }
 
     public async deleteSetting(req: Request, res: Response, next: NextFunction) {

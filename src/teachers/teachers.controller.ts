@@ -8,8 +8,8 @@ import { IControllerInteface } from '../common/controller.inteface';
 import { ValidatorMiddlewareService } from '../middlewares/validator/validatorMiddleware.service';
 import { ITeacherService } from './teachers.service.interface';
 import { CreateTeacherDtoIn } from './dto/in/createTeacher.dto';
-import 'reflect-metadata';
 import { UpdateTeacherDtoIn } from './dto/in/updateTeacher.dto';
+import 'reflect-metadata';
 
 @injectable()
 export class TeachersController extends BaseController implements IControllerInteface {
