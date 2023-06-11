@@ -36,6 +36,10 @@ import { MentionsService } from './mentions/mentions.service';
 import { TeachersRepository } from './teachers/teachers.repository';
 import { TeachersController } from './teachers/teachers.controller';
 import { TeachersService } from './teachers/teachers.service';
+import { PhotoalbumRepository } from './photoalbum/photoalbum.repository';
+import { PhotoRepository } from './photoalbum/photo.repository';
+import { PhotoalbumService } from './photoalbum/photoalbum.service';
+import { PhotoAlbumController } from './photoalbum/photoalbum.controller';
 import "reflect-metadata";
 
 const appContainer: Container = new Container();
@@ -69,6 +73,10 @@ function bindDeps(): void {
   appContainer.bind<BaseRepository>(TYPES.TeachersRepository).to(TeachersRepository).inSingletonScope();
   appContainer.bind<TeachersController>(TYPES.TeachersController).to(TeachersController).inSingletonScope();
   appContainer.bind<TeachersService>(TYPES.TeachersService).to(TeachersService).inSingletonScope();
+  appContainer.bind<BaseRepository>(TYPES.PhotoalbumRepository).to(PhotoalbumRepository).inSingletonScope();
+  appContainer.bind<BaseRepository>(TYPES.PhotoRepository).to(PhotoRepository).inSingletonScope();
+  appContainer.bind<PhotoalbumService>(TYPES.PhotoalbumService).to(PhotoalbumService).inSingletonScope();
+  appContainer.bind<PhotoAlbumController>(TYPES.PhotoAlbumController).to(PhotoAlbumController).inSingletonScope();
 }
 
 bindDeps();

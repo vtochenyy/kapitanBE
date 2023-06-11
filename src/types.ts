@@ -12,6 +12,10 @@ import { NewsController } from './news/news.controller';
 import { ContactsRepository } from './contacts/contacts.repository';
 import { ContactsService } from './contacts/contacts.service';
 import { ContactsController } from './contacts/contacts.controller';
+import { PhotoalbumRepository } from './photoalbum/photoalbum.repository';
+import { PhotoRepository } from './photoalbum/photo.repository';
+import { PhotoalbumService } from './photoalbum/photoalbum.service';
+import { PhotoAlbumController } from './photoalbum/photoalbum.controller';
 
 export const TYPES = {
     Application: Symbol.for('Application'),
@@ -42,4 +46,8 @@ export const TYPES = {
     TeachersRepository: Symbol.for('TeachersRepository'),
     TeachersService: Symbol.for('TeachersService'),
     TeachersController: Symbol.for('TeachersController'),
+    PhotoalbumRepository: Symbol.for('PhotoalbumRepository'),
+    PhotoRepository: Symbol.for('PhotoRepository'),
+    PhotoalbumService: Symbol.for('PhotoalbumService'),
+    PhotoAlbumController: Symbol.for('PhotoAlbumController'),
 };

@@ -18,6 +18,7 @@ import { ContactsController } from './contacts/contacts.controller';
 import { SettingsController } from './settings/settings.controller';
 import { MentionsController } from './mentions/mentions.controller';
 import { TeachersController } from './teachers/teachers.controller';
+import { PhotoAlbumController } from './photoalbum/photoalbum.controller';
 
 @injectable()
 export class App {
@@ -38,7 +39,8 @@ export class App {
         @inject(TYPES.ContactsController) private contactsController: ContactsController,
         @inject(TYPES.SettingsController) private settingsController: SettingsController,
         @inject(TYPES.MentionsController) private mentionsController: MentionsController,
-        @inject(TYPES.TeachersController) private teachersController: TeachersController
+        @inject(TYPES.TeachersController) private teachersController: TeachersController,
+        @inject(TYPES.PhotoAlbumController) private photoAlbumController: PhotoAlbumController
     ) {
         this.app = express();
         this.port = +this.configService.get('SERVER_PORT');
@@ -62,6 +64,7 @@ export class App {
         this.app.use('/settings', this.settingsController.router);
         this.app.use('/mentions', this.mentionsController.router);
         this.app.use('/teachers', this.teachersController.router);
+        this.app.use('/photoalbum', this.photoAlbumController.router);
     }
 
     public useErrorValidation() {
