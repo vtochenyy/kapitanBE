@@ -14,6 +14,6 @@ export class CreateMentionDtoIn {
     @IsOptional()
     @IsString()
     @IsNotEmpty()
-    @Length(4, 1000000)
+    @Length(4, 10000000)
     private preview_img?: string;
 }

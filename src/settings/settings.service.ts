@@ -18,8 +18,19 @@ export class SettingsService implements ISettingsService {
 
     public async createSetting(adminId: string, params: any, next: NextFunction) {
         try {
-            params = { ...params, createdBy: adminId };
-            const data = await this.settingsRepository.create(params);
+            const ifRecordExsists = await this.settingsRepository
+                .findByCriteria({ title: params.title })
+                .then((x) => !!x[0]);
+            let data = {};
+            if (ifRecordExsists) {
+                data = await this.settingsRepository.updateByParams(
+                    { title: params.title },
+                    { description: params.description }
+                );
+            } else {
+                params = { ...params, createdBy: adminId };
+                data = await this.settingsRepository.create(params);
+            }
             return baseAnswer(201, data, {});
         } catch (e) {
             next(new HttpError(500, String(e), 'SettingsService'));
